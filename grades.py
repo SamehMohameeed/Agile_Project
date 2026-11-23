@@ -1,17 +1,26 @@
+Max_Grade = 100
+Min_Grade = 0
+A_Grade = 90
+B_Grade = 80
+C_Grade = 70
+D_Grade = 60
+
+
+
 def letter_grade(score):
-    if score < 0 or score > 100:
+    if score < Min_Grade or score > Max_Grade:
         raise ValueError("Score must be between 0 and 100")
     
-    if score >= 90:
+    if score >= A_Grade:
             return "A"
         
-    elif score >= 80:
+    elif score >= B_Grade:
             return "B"
         
-    elif score >= 70:
+    elif score >= C_Grade:
             return "C"
         
-    elif score >= 60:
+    elif score >= D_Grade:
             return "D"
         
     else:
