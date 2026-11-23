@@ -1,9 +1,11 @@
+"""Tuition fee calculation module."""
 from enum import Enum
 from dataclasses import dataclass
 
 
 @dataclass(frozen=True)
 class Course:
+    """A course defined by its credit hours."""
     hours: int
 
 
@@ -15,6 +17,7 @@ SUMMER_FEE = 150
 
 
 class StudentType(Enum):
+    """Supported student categories."""
     REGULAR = 1
     STAFF_CHILD = 2
     SCHOLARSHIP = 3
@@ -34,20 +37,21 @@ LABELS = {
 
 
 def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
-
+    """Calculate the total tuition fee for a student."""
     rate = RATES[student_type]
     total = sum(course.hours * HOUR_RATE * rate for course in courses)
 
     if total > HIGH_FEE_THRESHOLD:
-        total = total - HIGH_FEE_REDUCTION
+        total -= HIGH_FEE_REDUCTION
     if summer:
-        total = total + SUMMER_FEE
+        total += SUMMER_FEE
     total -= discount
     total += sum(extras)
     return total
 
 
 def report(courses, student_type, summer=False, discount=0):
+    """Return a formatted tuition fee report."""
     fee = tuition_fee(courses, student_type, summer, discount)
     lines = [f"{LABELS[student_type]}: {fee}"]
     if fee > HIGH_FEE_THRESHOLD:
@@ -56,6 +60,7 @@ def report(courses, student_type, summer=False, discount=0):
 
 
 def process_all(students):
+    """Calculate tuition fees for all students."""
     return {
         student["name"]: tuition_fee(
             student["courses"],
