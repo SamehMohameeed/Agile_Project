@@ -1,4 +1,5 @@
 import pytest
+
 from grades import letter_grade
 
 
@@ -20,3 +21,8 @@ def test_score_is_0_is_a_f():
 
 def test_score_is_100_is_an_a():
     assert letter_grade(100) == "A"
+    
+def test_score_is_60_is_a_d():
+    assert letter_grade(60) == "D"
+    
+    
