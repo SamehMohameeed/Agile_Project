@@ -1,4 +1,9 @@
 from enum import Enum
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Course:
+    hours: int
 
 HOUR_RATE = 350
 STAFF_DISCOUNT_RATE = 0.5
@@ -19,18 +24,17 @@ RATES = {
 }
 
 
-def tuition_fee(courses, student_type, summer=False, discount=0, extras=[]):
+def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
 
     rate = RATES[student_type]
-    total = sum(course["h"] * HOUR_RATE * rate for course in courses)
+    total = sum(course.hours * HOUR_RATE * rate for course in courses)
     
     if total > HIGH_FEE_THRESHOLD:
         total = total - HIGH_FEE_REDUCTION
     if summer :
         total = total + SUMMER_FEE
     total -= discount
-    for extra in extras:
-        total = total + extra
+    total += sum(extras)
     return total
 
 def report(courses, student_type, summer=False, discount=0):
