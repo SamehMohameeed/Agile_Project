@@ -10,29 +10,30 @@ class StudentType(Enum):
     REGULAR = 1
     STAFF_CHILD = 2
     SCHOLARSHIP = 3
+    
+
+RATES = {
+    StudentType.REGULAR: 1,
+    StudentType.STAFF_CHILD: STAFF_DISCOUNT_RATE,
+    StudentType.SCHOLARSHIP: 0,
+}
 
 
-def tuition_fee(courses, student_type, summer, discount, extras=[]):
+def tuition_fee(courses, student_type, summer=False, discount=0, extras=[]):
 
-    total = 0
-    for course in discount:
-        if student_type == StudentType.REGULAR:
-            total = total + course["h"] * HOUR_RATE
-        elif student_type == StudentType.STAFF_CHILD:
-            total = total + course["h"] * HOUR_RATE * STAFF_DISCOUNT_RATE
-        elif student_type == StudentType.SCHOLARSHIP:
-            total = total + 0
+    rate = RATES[student_type]
+    total = sum(course["h"] * HOUR_RATE * rate for course in courses)
+    
     if total > HIGH_FEE_THRESHOLD:
         total = total - HIGH_FEE_REDUCTION
-    if summer == True:
+    if summer :
         total = total + SUMMER_FEE
-    if discount != None:
-        total = total - discount
+    total -= discount
     for extra in extras:
         total = total + extra
     return total
 
-def report(courses, student_type, summer, discount):
+def report(courses, student_type, summer=False, discount=0):
     fee = tuition_fee(courses, student_type, summer, discount)
     if student_type == StudentType.REGULAR:
         print("Student fee: " + str(fee))
@@ -45,7 +46,7 @@ def report(courses, student_type, summer, discount):
 def process_all(students):
     for student in students:
         if student["type"] == StudentType.REGULAR:
-            fee = tuition_fee(student["courses"], StudentType.REGULAR, student["summer"], None)
+            fee = tuition_fee(student["courses"], StudentType.REGULAR, student["summer"])
         if student["type"] == StudentType.STAFF_CHILD:
-            fee = tuition_fee(student["courses"], StudentType.STAFF_CHILD, student["summer"], None)
+            fee = tuition_fee(student["courses"], StudentType.STAFF_CHILD, student["summer"])
         print(student["name"], fee)
