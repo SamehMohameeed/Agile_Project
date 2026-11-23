@@ -17,3 +17,6 @@ def test_score_above_100_is_rejected():
         
 def test_score_is_0_is_a_f():
     assert letter_grade(0) == "F"
+
+def test_score_is_100_is_an_a():
+    assert letter_grade(100) == "A"
