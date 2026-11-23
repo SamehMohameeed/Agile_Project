@@ -28,6 +28,9 @@ def test_score_is_60_is_a_d():
 def test_score_is_70_is_a_c():
     assert letter_grade(70) == "C"
     
+def test_score_is_80_is_a_b():
+    assert letter_grade(80) == "B"
+    
 def test_score_is_negative_1_is_rejected():
     with pytest.raises(ValueError):
         letter_grade(-1)
