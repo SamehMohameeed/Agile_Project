@@ -24,5 +24,7 @@ def test_score_is_100_is_an_a():
     
 def test_score_is_60_is_a_d():
     assert letter_grade(60) == "D"
-    
+
+def test_score_is_70_is_a_c():
+    assert letter_grade(70) == "C"
     
