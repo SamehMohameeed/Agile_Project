@@ -14,3 +14,6 @@ def test_below_sixty_fails():
 def test_score_above_100_is_rejected():
     with pytest.raises(ValueError):
         letter_grade(101)
+        
+def test_score_is_0_is_a_f():
+    assert letter_grade(0) == "F"
