@@ -23,6 +23,12 @@ RATES = {
     StudentType.SCHOLARSHIP: 0,
 }
 
+LABELS = {
+    StudentType.REGULAR: "Student fee",
+    StudentType.STAFF_CHILD: "Staff child fee",
+    StudentType.SCHOLARSHIP: "Scholarship fee",
+}
+
 
 def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
 
@@ -39,13 +45,10 @@ def tuition_fee(courses, student_type, summer=False, discount=0, extras=()):
 
 def report(courses, student_type, summer=False, discount=0):
     fee = tuition_fee(courses, student_type, summer, discount)
-    if student_type == StudentType.REGULAR:
-        print("Student fee: " + str(fee))
-    elif student_type == StudentType.STAFF_CHILD:
-        print("Staff child fee: " + str(fee))
+    lines = [f"{LABELS[student_type]}: {fee}"]
     if fee > HIGH_FEE_THRESHOLD:
-        print("High fee")
-    return fee
+        lines.append("High fee")
+    return "\n".join(lines)
 
 def process_all(students):
     for student in students:
