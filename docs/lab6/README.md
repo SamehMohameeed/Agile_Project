@@ -58,3 +58,50 @@ $ python -m behave
 | Tests passing (`pytest`) | `0` (before characterization tests) | `10` (`5` registration + `5` invoice tests) |
 | Add a `"sibling"` discount type | Edit two `if/elif` chains in `make_invoice` | Add `SiblingPolicy` class + `"sibling"` entry in `POLICIES` |
 | Test without writing files | Not possible | Yes, with injected `FakeWriter` |
+
+---
+
+## Part D — Link to Team Project (`SCRUM-57`)
+
+| Item | Summary |
+| --- | --- |
+| **Story** | **SCRUM-57 — Add a Course**: As a student, I want to add a Course so that I can organize its Assignments and Exams under the correct subject. |
+| **Scenario 1 (happy path)** | `Successfully add a new course` — adding `"SET312"` (`"Agile Software Engineering"`) saves it to the student's registered courses. |
+| **Scenario 2 (refused / error)** | `Refuse adding a duplicate course` — adding `"SET312"` when it already exists is refused with `"Course already exists"` without duplicating it. |
+| **Scenario 3 (edge / outline)** | `Check different course additions` — `Scenario Outline` testing valid courses (`CS101`, `MATH20`), duplicate code with a different name (`SET312`), and case-insensitive duplicate edge case (`set312`). |
+
+Saved in [scrum57_add_course.feature](scrum57_add_course.feature):
+
+```gherkin
+Feature: Add a Course (SCRUM-57)
+  As a student
+  I want to add a Course
+  So that I can organize its Assignments and Exams under the correct subject
+
+  Background:
+    Given a logged-in student
+
+  Scenario: Successfully add a new course
+    When the student adds the course "SET312" named "Agile Software Engineering"
+    Then "SET312" appears in the student's registered courses
+    And the student has 1 registered course
+
+  Scenario: Refuse adding a duplicate course
+    Given the student already has the course "SET312" named "Agile Software Engineering"
+    When the student adds the course "SET312" named "Agile Software Engineering"
+    Then the action is refused with "Course already exists"
+    And the student has 1 registered course
+
+  Scenario Outline: Check different course additions
+    Given the student already has the course "SET312" named "Agile Software Engineering"
+    When the student adds the course "<code>" named "<name>"
+    Then the result is "<result>"
+
+    Examples:
+      | code   | name                       | result   |
+      | CS101  | Intro to Programming       | accepted |
+      | MATH20 | Discrete Mathematics       | accepted |
+      | SET312 | Software Engineering       | refused  |
+      | set312 | Agile Software Engineering | refused  |
+```
+
