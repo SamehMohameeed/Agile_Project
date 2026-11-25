@@ -38,6 +38,8 @@ $ python -m behave
 
 ### Task C1 — Completed Smells Table (`legacy_invoice.py`)
 
+Saved in [smells.md](smells.md):
+
 | Smell | Where | Principle it breaks |
 | --- | --- | --- |
 | Long `if/elif` chain on `kind` | Loop body (`if kind == ...`) and after loop (`if kind == "international"`) | **OCP**: adding a new student type requires editing `make_invoice` in two places |
