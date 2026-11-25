@@ -23,3 +23,9 @@ class Student:
             raise RegistrationError("credit-hour limit is 18")
         
         self.courses[code] = hours
+        
+        
+    def drop(self, code):
+            if code not in self.courses:
+                raise RegistrationError(f"{code} is not registered")
+            del self.courses[code]
