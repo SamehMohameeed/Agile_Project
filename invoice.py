@@ -31,6 +31,10 @@ class ScholarshipPolicy(DiscountedPolicy):
     DISCOUNT = 0.5
 
 
+class SiblingPolicy(DiscountedPolicy):
+    DISCOUNT = 0.25
+
+
 class InternationalPolicy(FeePolicy):
     RATE = 2000
     SERVICE_FEE = 5000
@@ -42,6 +46,7 @@ class InternationalPolicy(FeePolicy):
 POLICIES = {
     "regular": RegularPolicy(),
     "scholarship": ScholarshipPolicy(),
+    "sibling": SiblingPolicy(),
     "international": InternationalPolicy(),
 }
 
